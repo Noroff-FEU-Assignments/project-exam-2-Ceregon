@@ -15,7 +15,7 @@ const schema = yup.object().shape({
   media: yup.string().url("must be a URL"),
 });
 
-const token = JSON.parse(localStorage.getItem("auth"));
+const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
 
 export default function CreatePostForm() {
   const [, setSubmitting] = useState(false);

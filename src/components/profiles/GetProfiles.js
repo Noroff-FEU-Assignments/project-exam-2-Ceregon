@@ -8,7 +8,7 @@ import Container from "react-bootstrap/Container";
 
 const url = BASE_URL + PROFILE_PATH;
 
-const token = JSON.parse(localStorage.getItem("auth")).accessToken;
+const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
 
 export default function GetProfiles() {
   const [profiles, setProfiles] = useState([]);

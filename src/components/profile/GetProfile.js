@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-const token = JSON.parse(localStorage.getItem("auth")).accessToken;
+const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
 
 export default function GetProfile() {
   const [profile, setProfile] = useState([]);
