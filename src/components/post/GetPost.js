@@ -4,8 +4,6 @@ import { BASE_URL, POSTS_PATH } from "../../constants/api";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
-
 export default function GetPost() {
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,6 +26,8 @@ export default function GetPost() {
 
   useEffect(
     function () {
+      const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
+
       const options = {
         headers: {
           Authorization: "Bearer " + token,

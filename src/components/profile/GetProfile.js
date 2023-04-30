@@ -4,8 +4,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
-
 export default function GetProfile() {
   const [profile, setProfile] = useState([]);
 
@@ -20,6 +18,8 @@ export default function GetProfile() {
   const url = BASE_URL + PROFILE_PATH + "/" + param;
 
   useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
+
     const options = {
       headers: {
         Authorization: "Bearer " + token,

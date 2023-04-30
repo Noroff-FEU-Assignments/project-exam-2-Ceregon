@@ -8,12 +8,12 @@ import Container from "react-bootstrap/Container";
 
 const url = BASE_URL + POSTS_PATH;
 
-const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
-
 export default function GetPosts() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
+
     const options = {
       headers: {
         Authorization: "Bearer " + token,
