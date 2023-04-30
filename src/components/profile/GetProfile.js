@@ -35,7 +35,7 @@ export default function GetProfile() {
       console.log(json);
     }
     getData();
-  }, []);
+  }, [url]);
 
   return (
     <Card className="flex-row flex-wrap">
