@@ -1,22 +1,16 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormError from "../common/FormError";
-import { BASE_URL, REGISTER_PATH } from "../../constants/api";
+import { BASE_URL, LOGIN_PATH } from "../../constants/api";
+import AuthContext from "../../context/AuthContext";
 
-const url = BASE_URL + REGISTER_PATH;
+const url = BASE_URL + LOGIN_PATH;
 
 const schema = yup.object().shape({
-  name: yup
-    .string()
-    .required("Please enter your username")
-    .matches(
-      /^[a-zA-Z0-9_]+$/,
-      "You can include underscores (_) in your name but no other special characters, symbols or spaces"
-    ),
   email: yup
     .string()
     .required("Please enter your email")
@@ -30,7 +24,7 @@ const schema = yup.object().shape({
     .min(8, "Password must be at least 8 characters"),
 });
 
-export default function RegisterForm() {
+export default function LoginForm() {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
 
@@ -41,6 +35,8 @@ export default function RegisterForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const { setAuth } = useContext(AuthContext);
 
   async function onFormSubmit(data) {
     setSubmitting(true);
@@ -60,6 +56,8 @@ export default function RegisterForm() {
       const response = await fetch(url, options);
       const json = await response.json();
 
+      setAuth(json);
+
       console.log(json);
     } catch (error) {
       console.log("error", error);
@@ -73,16 +71,6 @@ export default function RegisterForm() {
     <>
       <Form onSubmit={handleSubmit(onFormSubmit)}>
         {formError && <FormError>{formError}</FormError>}
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            name="name"
-            type="text"
-            placeholder="Username"
-            {...register("name")}
-          />
-          {errors.username && <FormError>{errors.username.message}</FormError>}
-        </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -104,16 +92,6 @@ export default function RegisterForm() {
             {...register("password")}
           />
           {errors.password && <FormError>{errors.password.message}</FormError>}
-        </Form.Group>
-
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>Upload a profile picture</Form.Label>
-          <Form.Control type="file" />
-        </Form.Group>
-
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>Upload a banner picture</Form.Label>
-          <Form.Control type="file" />
         </Form.Group>
 
         <Button variant="primary" type="submit">

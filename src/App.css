@@ -1,3 +1,18 @@
 body {
   padding: 15px;
 }
+
+.posts-image {
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.avatar-container {
+  width: 100px;
+  height: 100px;
+}
+
+.avatar-image {
+  height: 100%;
+  object-fit: cover;
+}
