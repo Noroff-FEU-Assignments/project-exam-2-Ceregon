@@ -25,7 +25,7 @@ const schema = yup.object().shape({
 });
 
 export default function LoginForm() {
-  const [submitting, setSubmitting] = useState(false);
+  const [, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
 
   const {

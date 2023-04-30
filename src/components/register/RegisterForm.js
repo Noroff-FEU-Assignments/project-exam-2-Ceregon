@@ -31,7 +31,7 @@ const schema = yup.object().shape({
 });
 
 export default function RegisterForm() {
-  const [submitting, setSubmitting] = useState(false);
+  const [, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
 
   const {

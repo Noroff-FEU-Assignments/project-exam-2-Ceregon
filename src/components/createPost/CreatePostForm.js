@@ -18,7 +18,7 @@ const schema = yup.object().shape({
 const token = JSON.parse(localStorage.getItem("auth"));
 
 export default function CreatePostForm() {
-  const [submitting, setSubmitting] = useState(false);
+  const [, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
 
   const {
