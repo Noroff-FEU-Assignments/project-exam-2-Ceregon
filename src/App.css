@@ -16,3 +16,12 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+.banner-container {
+  max-height: 200px;
+}
+
+.banner-image {
+  height: 100%;
+  object-fit: cover;
+}

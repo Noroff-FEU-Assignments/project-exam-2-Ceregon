@@ -16,6 +16,8 @@ function Navigation() {
     history("/");
   }
 
+  const user = JSON.parse(localStorage.getItem("auth"))?.name;
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -35,7 +37,7 @@ function Navigation() {
             {auth ? (
               <>
                 |{" "}
-                <NavLink to="/profile" className="nav-link">
+                <NavLink to={`profiles/${user}`} className="nav-link">
                   Profile
                 </NavLink>{" "}
                 <NavLink to="/posts" className="nav-link">

@@ -1,8 +1,9 @@
 import { BASE_URL, PROFILE_PATH } from "../../constants/api";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import UpdateForm from "./UpdateProfile";
+import GetPosts from "../posts/GetPosts";
 
 export default function GetProfile() {
   const [profile, setProfile] = useState([]);
@@ -26,8 +27,6 @@ export default function GetProfile() {
       },
     };
 
-    console.log(options);
-
     async function getData() {
       const response = await fetch(url, options);
       const json = await response.json();
@@ -38,16 +37,26 @@ export default function GetProfile() {
   }, [url]);
 
   return (
-    <Card className="flex-row flex-wrap">
-      <div className="avatar-container">
-        <Card.Img src={profile.avatar} className="avatar-image" />
-      </div>
+    <>
+      <Card className="flex-row flex-wrap">
+        <div className="banner-container">
+          <Card.Img src={profile.banner} className="banner-image" />
+        </div>
 
-      <Card.Body>
-        <Card.Title>{profile.name}</Card.Title>
+        <div className="avatar-container">
+          <Card.Img src={profile.avatar} className="avatar-image" />
+        </div>
 
-        <Button variant="primary">View profile</Button>
-      </Card.Body>
-    </Card>
+        <Card.Body>
+          <Card.Title>{profile.name}</Card.Title>
+        </Card.Body>
+      </Card>
+
+      <GetPosts url={url + "/posts"} />
+
+      {param === JSON.parse(localStorage.getItem("auth")).name ? (
+        <UpdateForm />
+      ) : null}
+    </>
   );
 }

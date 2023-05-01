@@ -1,40 +1,24 @@
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
+import Form from "react-bootstrap/Form";
+import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormError from "../common/FormError";
-import { BASE_URL, REGISTER_PATH } from "../../constants/api";
+import { BASE_URL, PROFILE_PATH } from "../../constants/api";
+import AuthContext from "../../context/AuthContext";
 
-const url = BASE_URL + REGISTER_PATH;
+const name = JSON.parse(localStorage.getItem("auth")).name;
+
+const url = BASE_URL + PROFILE_PATH + "/" + name + "/media";
 
 const schema = yup.object().shape({
-  name: yup
-    .string()
-    .required("Please enter your username")
-    .matches(
-      /^[a-zA-Z0-9_]+$/,
-      "You can include underscores (_) in your name but no other special characters, symbols or spaces"
-    ),
-  email: yup
-    .string()
-    .required("Please enter your email")
-    .matches(
-      /@stud.noroff.no+$/,
-      "You must have an email address ending in @stud.noroff.no"
-    ),
-  password: yup
-    .string()
-    .required("Please enter your password")
-    .min(8, "Password must be at least 8 characters"),
-
   avatar: yup.string().url("You must use the URL of an image file"),
 
   banner: yup.string().url("You must use the URL of an image file"),
 });
 
-export default function RegisterForm() {
+export default function UpdateForm() {
   const [, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
 
@@ -44,27 +28,36 @@ export default function RegisterForm() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      avatar: JSON.parse(localStorage.getItem("auth")).avatar,
+      banner: JSON.parse(localStorage.getItem("auth")).banner,
+    },
   });
+
+  const { setAuth } = useContext(AuthContext);
 
   async function onFormSubmit(data) {
     setSubmitting(true);
     setFormError(null);
 
     try {
-      console.log(data);
+      const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
 
       const options = {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
       };
 
       const response = await fetch(url, options);
       const json = await response.json();
 
-      console.log(json);
+      json.accessToken = token;
+
+      setAuth(json);
     } catch (error) {
       console.log("error", error);
       setFormError(error.toString());
@@ -75,41 +68,9 @@ export default function RegisterForm() {
 
   return (
     <>
+      <h2>Update your profile</h2>
       <Form onSubmit={handleSubmit(onFormSubmit)}>
         {formError && <FormError>{formError}</FormError>}
-        <Form.Group className="mb-3" controlId="formBasicUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            name="name"
-            type="text"
-            placeholder="Username"
-            {...register("name")}
-          />
-          {errors.name && <FormError>{errors.name.message}</FormError>}
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            name="email"
-            type="email"
-            placeholder="Enter email"
-            {...register("email")}
-          />
-          {errors.email && <FormError>{errors.email.message}</FormError>}
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            name="password"
-            type="password"
-            placeholder="Password"
-            {...register("password")}
-          />
-          {errors.password && <FormError>{errors.password.message}</FormError>}
-        </Form.Group>
-
         <Form.Group className="mb-3" controlId="formBasicAvatar">
           <Form.Label>Profile picture (Optional)</Form.Label>
           <Form.Control
@@ -133,7 +94,7 @@ export default function RegisterForm() {
         </Form.Group>
 
         <Button variant="primary" type="submit">
-          Submit
+          Update
         </Button>
       </Form>
     </>

@@ -1,4 +1,3 @@
-import { BASE_URL, POSTS_PATH } from "../../constants/api";
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -6,9 +5,8 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 
-const url = BASE_URL + POSTS_PATH;
-
-export default function GetPosts() {
+export default function GetPosts(props) {
+  console.log(props);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -21,13 +19,13 @@ export default function GetPosts() {
     };
 
     async function getData() {
-      const response = await fetch(url, options);
+      const response = await fetch(props.url, options);
       const json = await response.json();
       setPosts(json);
       console.log(json);
     }
     getData();
-  }, []);
+  }, [props.url]);
 
   return (
     <Container>
