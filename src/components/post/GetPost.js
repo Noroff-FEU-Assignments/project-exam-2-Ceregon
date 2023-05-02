@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { BASE_URL, POSTS_PATH } from "../../constants/api";
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import UpdatePost from "../updatePost/UpdatePost";
 
 export default function GetPost() {
   const [item, setItem] = useState(null);
@@ -74,7 +74,9 @@ export default function GetPost() {
         <Card.Title>{item.title}</Card.Title>
         <Card.Text>{item.body}</Card.Text>
 
-        <Button variant="primary">Go somewhere</Button>
+        {item.author.name === JSON.parse(localStorage.getItem("auth")).name ? (
+          <UpdatePost post={item} setPost={setItem} />
+        ) : null}
       </Card.Body>
       <Card.Footer className="text-muted">{date.toDateString()}</Card.Footer>
     </Card>

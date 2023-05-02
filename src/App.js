@@ -26,6 +26,7 @@ function App() {
             <Route path="/profiles" element={<Profiles />} />
             <Route path="/posts/:param" element={<Post />} />
             <Route path="/profiles/:param" element={<Profile />} />
+            <Route path="/profiles/posts/:param" element={<Post />} />
             <Route path="/create-post" element={<CreatePost />} />
           </Routes>
         </Container>

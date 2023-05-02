@@ -6,7 +6,6 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 
 export default function GetPosts(props) {
-  console.log(props);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
