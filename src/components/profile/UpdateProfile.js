@@ -8,10 +8,6 @@ import FormError from "../common/FormError";
 import { BASE_URL, PROFILE_PATH } from "../../constants/api";
 import AuthContext from "../../context/AuthContext";
 
-const name = JSON.parse(localStorage.getItem("auth")).name;
-
-const url = BASE_URL + PROFILE_PATH + "/" + name + "/media";
-
 const schema = yup.object().shape({
   avatar: yup.string().url("You must use the URL of an image file"),
 
@@ -21,6 +17,10 @@ const schema = yup.object().shape({
 export default function UpdateForm() {
   const [, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
+
+  const name = JSON.parse(localStorage.getItem("auth")).name;
+
+  const url = BASE_URL + PROFILE_PATH + "/" + name + "/media";
 
   const {
     register,
