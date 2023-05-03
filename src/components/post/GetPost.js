@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import UpdatePost from "../updatePost/UpdatePost";
 import Table from "react-bootstrap/Table";
 import CommentPost from "./CommentPost";
+import Reactions from "./Reactions";
 
 export default function GetPost() {
   const [item, setItem] = useState(null);
@@ -75,6 +76,16 @@ export default function GetPost() {
       <Card.Body>
         <Card.Title>{item.title}</Card.Title>
         <Card.Text>{item.body}</Card.Text>
+
+        {item.reactions.map((reaction) => (
+          <div>
+            {reaction.symbol}
+            {reaction.count}
+          </div>
+        ))}
+
+        <Reactions />
+
         <div>Comments</div>
         <Table striped bordered hover>
           <tbody>
