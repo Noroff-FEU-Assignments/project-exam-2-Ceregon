@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { BASE_URL, POSTS_PATH } from "../../constants/api";
 import Card from "react-bootstrap/Card";
 import UpdatePost from "../updatePost/UpdatePost";
+import Table from "react-bootstrap/Table";
+import CommentPost from "./CommentPost";
 
 export default function GetPost() {
   const [item, setItem] = useState(null);
@@ -73,6 +75,18 @@ export default function GetPost() {
       <Card.Body>
         <Card.Title>{item.title}</Card.Title>
         <Card.Text>{item.body}</Card.Text>
+        <div>Comments</div>
+        <Table striped bordered hover>
+          <tbody>
+            {item.comments.map((comment) => (
+              <tr>
+                <td>{comment.owner}</td>
+                <td>{comment.body}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <CommentPost />
 
         {item.author.name === JSON.parse(localStorage.getItem("auth")).name ? (
           <UpdatePost post={item} setPost={setItem} />
