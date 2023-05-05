@@ -1,36 +1,40 @@
 import Button from "react-bootstrap/Button";
 import { BASE_URL, PROFILE_PATH } from "../../constants/api";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Follow(props) {
   const { param } = useParams();
 
-  const [, setFollow] = useState("/follow");
-  const [followButton, setFollowButton] = useState("+Follow");
+  const [follow, setFollow] = useState(false);
+  // const [followButton, setFollowButton] = useState("+Follow");
 
   const followers = props.followers;
   const user = JSON.parse(localStorage.getItem("auth"))?.name;
 
-  console.log(props.followers);
-
-  let buttonStatus;
+  // let buttonStatus;
 
   function onClick() {
     let status;
 
-    if (followers.filter((e) => e.name === user).length > 0) {
+    if (follow) {
       status = "/unfollow";
-      buttonStatus = "+Follow";
     } else {
       status = "/follow";
-      buttonStatus = "-Unfollow";
     }
 
-    setFollow(status);
-    setFollowButton(buttonStatus);
+    // if (followers.filter((e) => e.name === user).length > 0) {
+    //   status = "/unfollow";
+    //   // buttonStatus = "+Follow";
+    // } else {
+    //   status = "/follow";
+    //   // buttonStatus = "-Unfollow";
+    // }
 
-    console.log(followButton);
+    // setFollow(status);
+    // setFollowButton(buttonStatus);
+
+    // console.log(followButton);
 
     async function toggleFollow() {
       const url = BASE_URL + PROFILE_PATH + "/" + param + status;
@@ -45,9 +49,10 @@ export default function Follow(props) {
         };
 
         const response = await fetch(url, options);
+        // eslint-disable-next-line no-unused-vars
         const json = await response.json();
 
-        console.log(json);
+        setFollow(!follow);
       } catch (error) {
         console.log("error", error);
       } finally {
@@ -56,9 +61,11 @@ export default function Follow(props) {
     toggleFollow();
   }
 
-  return (
-    <>
-      <Button onClick={onClick}>{followButton}</Button>
-    </>
-  );
+  useEffect(() => {
+    if (followers?.filter((e) => e.name === user).length > 0) {
+      setFollow(true);
+    }
+  }, [followers, user]);
+
+  return <Button onClick={onClick}>{follow ? "-Unfollow" : "+Follow"}</Button>;
 }
