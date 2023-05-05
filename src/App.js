@@ -11,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import { AuthProvider } from "./context/AuthContext";
+import Home from "./components/home/Home";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
         <Navigation />
         <Container>
           <Routes>
-            <Route path="/" exact element={<Register />} />
+            <Route path="/" exact element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/posts" element={<Posts />} />

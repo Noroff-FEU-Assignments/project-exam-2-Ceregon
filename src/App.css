@@ -26,3 +26,8 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+.welcome-buttons {
+  display: flex;
+  justify-content: space-around;
+}

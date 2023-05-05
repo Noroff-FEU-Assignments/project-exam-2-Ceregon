@@ -43,8 +43,6 @@ export default function LoginForm() {
     setFormError(null);
 
     try {
-      console.log(data);
-
       const options = {
         method: "POST",
         body: JSON.stringify(data),

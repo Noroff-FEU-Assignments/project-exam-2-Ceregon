@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import Button from "react-bootstrap/Button";
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 
@@ -26,19 +26,12 @@ function Navigation() {
         </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <NavLink to="/" className="nav-link">
-              Home
-            </NavLink>
-            <NavLink to="/login" className="nav-link">
-              Login
-            </NavLink>
-
-            {auth ? (
-              <>
-                |{" "}
+          {auth ? (
+            <>
+              <Nav className="me-auto">
+                {" "}
                 <NavLink to={`profiles/${user}`} className="nav-link">
-                  Profile
+                  My Profile
                 </NavLink>{" "}
                 <NavLink to="/posts" className="nav-link">
                   Posts
@@ -49,14 +42,25 @@ function Navigation() {
                 <NavLink to="/create-post" className="nav-link">
                   Create post
                 </NavLink>{" "}
-                | <button onClick={logout}>Log out</button>
-              </>
-            ) : (
-              <NavLink to="/login" className="nav-link">
-                Login
-              </NavLink>
-            )}
-          </Nav>
+              </Nav>
+              <Nav className="ml-auto">
+                <Button onClick={logout} variant="light">
+                  Log out
+                </Button>
+              </Nav>
+            </>
+          ) : (
+            <>
+              <Nav className="me-auto">
+                <NavLink to="/register" className="nav-link">
+                  Register
+                </NavLink>
+                <NavLink to="/login" className="nav-link">
+                  Login
+                </NavLink>
+              </Nav>
+            </>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

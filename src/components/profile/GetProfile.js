@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import UpdateForm from "./UpdateProfile";
 import GetPosts from "../posts/GetPosts";
+import Follow from "./FollowUnfollow";
 
 export default function GetProfile() {
   const [profile, setProfile] = useState([]);
@@ -28,7 +29,10 @@ export default function GetProfile() {
     };
 
     async function getData() {
-      const response = await fetch(url, options);
+      const response = await fetch(
+        url + "?_following=true&_followers=true",
+        options
+      );
       const json = await response.json();
       setProfile(json);
       console.log(json);
@@ -49,6 +53,7 @@ export default function GetProfile() {
 
         <Card.Body>
           <Card.Title>{profile.name}</Card.Title>
+          <Follow followers={profile.followers} />
         </Card.Body>
       </Card>
 
