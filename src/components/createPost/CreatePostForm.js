@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormError from "../common/FormError";
 import { BASE_URL, POSTS_PATH } from "../../constants/api";
+import { useNavigate } from "react-router-dom";
 
 const url = BASE_URL + POSTS_PATH;
 
@@ -18,6 +19,8 @@ const schema = yup.object().shape({
 export default function CreatePostForm() {
   const [, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
+
+  let history = useNavigate();
 
   const {
     register,
@@ -32,8 +35,6 @@ export default function CreatePostForm() {
     setFormError(null);
 
     try {
-      console.log(data);
-
       const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
 
       const options = {
@@ -49,6 +50,8 @@ export default function CreatePostForm() {
       const json = await response.json();
 
       console.log(json);
+
+      history("../posts/" + json.id);
     } catch (error) {
       console.log("error", error);
       setFormError(error.toString());

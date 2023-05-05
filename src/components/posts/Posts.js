@@ -8,8 +8,10 @@ const url = BASE_URL + POSTS_PATH;
 export default function Posts() {
   return (
     <>
-      <Heading title="Posts" />
-      <Button variant="primary">Create post</Button>
+      <Heading title=" Recent Posts" />
+      <Button variant="primary" className="create-button">
+        +Create post
+      </Button>
       <GetPosts url={url} />
     </>
   );

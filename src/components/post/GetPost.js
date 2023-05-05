@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { BASE_URL, POSTS_PATH } from "../../constants/api";
 import Card from "react-bootstrap/Card";
 import UpdatePost from "../updatePost/UpdatePost";
@@ -70,35 +70,50 @@ export default function GetPost() {
   const date = new Date(item.created);
 
   return (
-    <Card style={{ width: "18rem" }}>
-      <Card.Header>{item.author.name}</Card.Header>
+    <Card style={{ maxWidth: "540px" }}>
+      <Card.Header>
+        <div className="avatar-container-mini">
+          <img className="avatar-image" src={item.author.avatar} alt="" />
+        </div>
+        <Link to={"../profiles/" + item.author.name} className="profile-name">
+          {item.author.name}
+        </Link>
+      </Card.Header>
       <Card.Img variant="top" src={item.media} />
       <Card.Body>
         <Card.Title>{item.title}</Card.Title>
         <Card.Text>{item.body}</Card.Text>
 
         {item.reactions.map((reaction) => (
-          <div>
+          <div className="reactions">
             {reaction.symbol}
             {reaction.count}
           </div>
         ))}
 
-        <Reactions />
+        <Reactions post={item} setPost={setItem} />
 
-        <div>Comments</div>
-        <Table striped bordered hover>
-          <tbody>
-            {item.comments.map((comment) => (
-              <tr>
-                <td>{comment.owner}</td>
-                <td>{comment.body}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        <CommentPost />
-
+        <div className="comment-container">
+          <h4>Comments</h4>
+          <Table className="comment-table">
+            <tbody>
+              {item.comments.map((comment) => (
+                <tr>
+                  <td className="comment-owner">
+                    <Link
+                      to={"../profiles/" + comment.owner}
+                      className="profile-name"
+                    >
+                      {comment.owner}
+                    </Link>
+                  </td>
+                  <td className="comment-text">{comment.body}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          <CommentPost post={item} setPost={setItem} />
+        </div>
         {item.author.name === JSON.parse(localStorage.getItem("auth")).name ? (
           <UpdatePost post={item} setPost={setItem} />
         ) : null}

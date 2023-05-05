@@ -34,6 +34,13 @@ export default function Reactions(props) {
         const json = await response.json();
 
         console.log(json);
+
+        props.setPost({
+          ...props.post,
+          reactions: props.post.reactions.concat(json),
+        });
+
+        console.log(props.post);
       } catch (error) {
         console.log("error", error);
       }

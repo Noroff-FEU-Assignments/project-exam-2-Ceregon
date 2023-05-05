@@ -13,7 +13,7 @@ const schema = yup.object().shape({
   body: yup.string().required("You must write something to make a comment"),
 });
 
-export default function CommentPost() {
+export default function CommentPost(props) {
   const [, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
 
@@ -50,6 +50,11 @@ export default function CommentPost() {
       const response = await fetch(url, options);
       const json = await response.json();
 
+      props.setPost({
+        ...props.post,
+        comments: props.post.comments.concat(json),
+      });
+
       console.log(json);
     } catch (error) {
       console.log("error", error);
@@ -75,8 +80,8 @@ export default function CommentPost() {
             <Button variant="primary" type="submit">
               Submit
             </Button>
-            {errors.comment && <FormError>{errors.comment.message}</FormError>}
           </InputGroup>
+          {errors.body && <FormError>{errors.body.message}</FormError>}
         </Form.Group>
       </Form>
     </>

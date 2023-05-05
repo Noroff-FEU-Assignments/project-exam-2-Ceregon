@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
+import { Link } from "react-router-dom";
 
 export default function GetPosts(props) {
   const [posts, setPosts] = useState([]);
@@ -18,7 +19,8 @@ export default function GetPosts(props) {
     };
 
     async function getData() {
-      const response = await fetch(props.url, options);
+      const url = props.url + "?_author=true";
+      const response = await fetch(url, options);
       const json = await response.json();
       setPosts(json);
       console.log(json);
@@ -33,6 +35,21 @@ export default function GetPosts(props) {
           <>
             <Col>
               <Card>
+                <Card.Header>
+                  <div className="avatar-container-mini">
+                    <img
+                      className="avatar-image"
+                      src={post.author.avatar}
+                      alt=""
+                    />
+                  </div>
+                  <Link
+                    to={"../profiles/" + post.author.name}
+                    className="profile-name"
+                  >
+                    {post.author.name}
+                  </Link>
+                </Card.Header>
                 <Card.Img
                   variant="top"
                   src={post.media}

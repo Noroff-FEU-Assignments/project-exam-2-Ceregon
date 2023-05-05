@@ -68,6 +68,8 @@ export default function UpdatePostForm(props) {
         body: json.body,
         media: json.media,
       });
+
+      console.log(props.post);
     } catch (error) {
       console.log("error", error);
       setFormError(error.toString());
