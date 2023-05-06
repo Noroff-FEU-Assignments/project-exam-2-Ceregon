@@ -16,7 +16,7 @@ export default function UpdatePost(props) {
   return (
     <>
       <Button onClick={onClick}>Edit</Button>
-      <Button variant="danger" onClick={onDelete}>
+      <Button variant="danger" onClick={onDelete} className="delete-button">
         Delete
       </Button>
       {render ? (

@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormError from "../common/FormError";
 import { BASE_URL, REGISTER_PATH } from "../../constants/api";
+import { useNavigate } from "react-router-dom";
 
 const url = BASE_URL + REGISTER_PATH;
 
@@ -36,7 +37,10 @@ const schema = yup.object().shape({
 
 export default function RegisterForm() {
   const [, setSubmitting] = useState(false);
-  const [formError, setFormError] = useState(null);
+  const [formError, setFormError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const redirect = useNavigate();
 
   const {
     register,
@@ -48,11 +52,10 @@ export default function RegisterForm() {
 
   async function onFormSubmit(data) {
     setSubmitting(true);
-    setFormError(null);
+    setFormError(false);
+    setErrorMessage("");
 
     try {
-      console.log(data);
-
       const options = {
         method: "POST",
         body: JSON.stringify(data),
@@ -65,9 +68,16 @@ export default function RegisterForm() {
       const json = await response.json();
 
       console.log(json);
+
+      if (!json.name) {
+        setFormError(true);
+        setErrorMessage(json.errors[0].message);
+      } else {
+        redirect("/login");
+      }
     } catch (error) {
       console.log("error", error);
-      setFormError(error.toString());
+      setFormError(true);
     } finally {
       setSubmitting(false);
     }
@@ -135,6 +145,10 @@ export default function RegisterForm() {
         <Button variant="primary" type="submit">
           Submit
         </Button>
+
+        {formError ? (
+          <div className="form-error">Error: {errorMessage} </div>
+        ) : null}
       </Form>
     </>
   );

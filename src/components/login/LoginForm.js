@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import FormError from "../common/FormError";
 import { BASE_URL, LOGIN_PATH } from "../../constants/api";
 import AuthContext from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const url = BASE_URL + LOGIN_PATH;
 
@@ -26,7 +27,8 @@ const schema = yup.object().shape({
 
 export default function LoginForm() {
   const [, setSubmitting] = useState(false);
-  const [formError, setFormError] = useState(null);
+  const [formError, setFormError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const {
     register,
@@ -38,9 +40,12 @@ export default function LoginForm() {
 
   const { setAuth } = useContext(AuthContext);
 
+  const redirect = useNavigate();
+
   async function onFormSubmit(data) {
     setSubmitting(true);
-    setFormError(null);
+    setFormError(false);
+    setErrorMessage("");
 
     try {
       const options = {
@@ -54,9 +59,15 @@ export default function LoginForm() {
       const response = await fetch(url, options);
       const json = await response.json();
 
-      setAuth(json);
-
       console.log(json);
+
+      if (!json.name) {
+        setFormError(true);
+        setErrorMessage(json.errors[0].message);
+      } else {
+        setAuth(json);
+        redirect("/profiles/" + json.name);
+      }
     } catch (error) {
       console.log("error", error);
       setFormError(error.toString());
@@ -95,6 +106,9 @@ export default function LoginForm() {
         <Button variant="primary" type="submit">
           Submit
         </Button>
+        {formError ? (
+          <div className="form-error">Error: {errorMessage} </div>
+        ) : null}
       </Form>
     </>
   );

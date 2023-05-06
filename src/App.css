@@ -54,13 +54,18 @@
   margin-bottom: 12px;
 }
 
+.delete-button {
+  margin-left: 10px;
+}
+
 .reactions {
   display: inline-block;
   margin-right: 5px;
   margin-bottom: 5px;
 }
 
-.comment-container {
+.comment-container,
+.edit-container {
   margin-top: 10px;
 }
 

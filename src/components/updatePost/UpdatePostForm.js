@@ -79,7 +79,7 @@ export default function UpdatePostForm(props) {
   }
 
   return (
-    <>
+    <div className="edit-container">
       <h2>Edit post</h2>
       <Form onSubmit={handleSubmit(onFormSubmit)}>
         {formError && <FormError>{formError}</FormError>}
@@ -120,6 +120,6 @@ export default function UpdatePostForm(props) {
           Update
         </Button>
       </Form>
-    </>
+    </div>
   );
 }

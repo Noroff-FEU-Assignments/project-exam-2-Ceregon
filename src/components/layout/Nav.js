@@ -22,11 +22,11 @@ function Navigation() {
     <Navbar bg="light" expand="lg">
       <Container>
         <NavLink to="/" exact="true">
-          <Navbar.Brand>React App</Navbar.Brand>
+          <Navbar.Brand>NorSocial</Navbar.Brand>
         </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          {auth ? (
+          {user ? (
             <>
               <Nav className="me-auto">
                 {" "}

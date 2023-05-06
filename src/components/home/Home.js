@@ -9,7 +9,8 @@ export default function Home() {
 
       <Card style={{ width: "18rem" }}>
         <Card.Body>
-          <Card.Title>Welcome</Card.Title>
+          <Card.Title>Welcome to NorSocial</Card.Title>
+          <Card.Text>This is a social media for Noroff students.</Card.Text>
           <Card.Text>
             Register if you're new, or log in if you already have a profile.
           </Card.Text>
