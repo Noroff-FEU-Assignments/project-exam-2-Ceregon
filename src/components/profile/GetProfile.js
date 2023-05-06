@@ -22,23 +22,27 @@ export default function GetProfile() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
 
-    const options = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+    if (!token) {
+      history("/");
+    } else {
+      const options = {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
 
-    async function getData() {
-      const response = await fetch(
-        url + "?_following=true&_followers=true",
-        options
-      );
-      const json = await response.json();
-      setProfile(json);
-      console.log(json);
+      async function getData() {
+        const response = await fetch(
+          url + "?_following=true&_followers=true",
+          options
+        );
+        const json = await response.json();
+        setProfile(json);
+        console.log(json);
+      }
+      getData();
     }
-    getData();
-  }, [url]);
+  }, [url, history]);
 
   return (
     <>

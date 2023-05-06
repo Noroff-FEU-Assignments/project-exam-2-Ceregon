@@ -5,31 +5,38 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
+import { useNavigate } from "react-router-dom";
 
 const url = BASE_URL + PROFILE_PATH;
 
 export default function GetProfiles() {
   const [profiles, setProfiles] = useState([]);
 
+  const redirect = useNavigate();
+
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
 
-    const options = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+    if (!token) {
+      redirect("/");
+    } else {
+      const options = {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
 
-    console.log(options);
+      console.log(options);
 
-    async function getData() {
-      const response = await fetch(url, options);
-      const json = await response.json();
-      setProfiles(json);
-      console.log(json);
+      async function getData() {
+        const response = await fetch(url, options);
+        const json = await response.json();
+        setProfiles(json);
+        console.log(json);
+      }
+      getData();
     }
-    getData();
-  }, []);
+  }, [redirect]);
 
   return (
     <Container>

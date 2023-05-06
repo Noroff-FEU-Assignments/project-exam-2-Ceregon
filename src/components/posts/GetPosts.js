@@ -4,10 +4,12 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function GetPosts(props) {
   const [posts, setPosts] = useState([]);
+
+  const redirect = useNavigate();
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
@@ -18,15 +20,19 @@ export default function GetPosts(props) {
       },
     };
 
-    async function getData() {
-      const url = props.url + "?_author=true";
-      const response = await fetch(url, options);
-      const json = await response.json();
-      setPosts(json);
-      console.log(json);
+    if (!token) {
+      redirect("/");
+    } else {
+      async function getData() {
+        const url = props.url + "?_author=true";
+        const response = await fetch(url, options);
+        const json = await response.json();
+        setPosts(json);
+        console.log(json);
+      }
+      getData();
     }
-    getData();
-  }, [props.url]);
+  }, [props.url, redirect]);
 
   return (
     <Container>

@@ -31,32 +31,36 @@ export default function GetPost() {
     function () {
       const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
 
-      const options = {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      };
+      if (!token) {
+        history("/");
+      } else {
+        const options = {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        };
 
-      async function fetchData() {
-        try {
-          const response = await fetch(url, options);
+        async function fetchData() {
+          try {
+            const response = await fetch(url, options);
 
-          if (response.ok) {
-            const json = await response.json();
-            console.log(json);
-            setItem(json);
-          } else {
-            setError("An error occured");
+            if (response.ok) {
+              const json = await response.json();
+              console.log(json);
+              setItem(json);
+            } else {
+              setError("An error occured");
+            }
+          } catch (error) {
+            setError(error.toString());
+          } finally {
+            setLoading(false);
           }
-        } catch (error) {
-          setError(error.toString());
-        } finally {
-          setLoading(false);
         }
+        fetchData();
       }
-      fetchData();
     },
-    [url]
+    [url, history]
   );
 
   if (loading) {
