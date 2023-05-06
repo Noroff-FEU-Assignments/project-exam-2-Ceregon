@@ -26,7 +26,7 @@ function Navigation() {
         </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          {user ? (
+          {auth.name ? (
             <>
               <Nav className="me-auto">
                 {" "}
