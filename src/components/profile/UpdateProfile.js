@@ -58,6 +58,8 @@ export default function UpdateForm() {
       json.accessToken = token;
 
       setAuth(json);
+
+      window.location.reload();
     } catch (error) {
       console.log("error", error);
       setFormError(error.toString());
