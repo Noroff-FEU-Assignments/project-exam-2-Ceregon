@@ -21,7 +21,7 @@ export default function Posts() {
   return (
     <>
       <Heading title=" Recent Posts" />
-      <Button variant="primary" className="create-button">
+      <Button href="/create-post" variant="primary" className="create-button">
         +Create post
       </Button>
       <GetPosts url={url} />
