@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import UpdatePostForm from "./UpdatePostForm";
 import { useState } from "react";
-import deletePost from "./DeletePost";
+import DeletePost from "./DeletePost";
 
 export default function UpdatePost(props) {
   const [render, setRender] = useState(false);
@@ -9,16 +9,11 @@ export default function UpdatePost(props) {
     setRender((prevRender) => !prevRender);
   }
 
-  function onDelete() {
-    deletePost(props);
-  }
-
   return (
     <>
       <Button onClick={onClick}>Edit</Button>
-      <Button variant="danger" onClick={onDelete} className="delete-button">
-        Delete
-      </Button>
+      <DeletePost post={props.post} />
+
       {render ? (
         <UpdatePostForm post={props.post} setPost={props.setPost} />
       ) : null}
