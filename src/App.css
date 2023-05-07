@@ -1,3 +1,12 @@
+body {
+  font-family: "Segoe UI", Helvetica, sans-serif;
+}
+
+h1 {
+  color: #0d2779;
+  text-transform: uppercase;
+}
+
 .posts-image {
   max-height: 200px;
   object-fit: cover;

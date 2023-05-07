@@ -1,4 +1,3 @@
-import "./App.css";
 import Register from "./components/register/Register";
 import Login from "./components/login/Login";
 import Posts from "./components/posts/Posts";
@@ -12,6 +11,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import { AuthProvider } from "./context/AuthContext";
 import Home from "./components/home/Home";
+import "./App.css";
 
 function App() {
   return (
